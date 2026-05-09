@@ -26,8 +26,6 @@ public class StockController {
     }
 
     // 2. Consumir stock (Venta o salida de mercadería)
-    // Usamos PUT porque estamos actualizando un recurso existente.
-    // Ejemplo de URL: /api/stock/producto/10/sucursal/2/consumir?cantidad=5
     @PutMapping("/producto/{productoId}/sucursal/{sucursalId}/consumir")
     public ResponseEntity<StockResponseDTO> consumir(
             @PathVariable Long productoId,
@@ -39,14 +37,12 @@ public class StockController {
     }
 
     // 3. Consultar todo el stock de un producto específico (en todas sus sucursales)
-    // Ejemplo de URL: /api/stock/producto/10
     @GetMapping("/producto/{productoId}")
     public ResponseEntity<List<StockResponseDTO>> obtenerPorProducto(@PathVariable Long productoId) {
         return ResponseEntity.ok(stockService.obtenerPorProducto(productoId));
     }
 
     // 4. Consultar todo el inventario de una sucursal específica
-    // Ejemplo de URL: /api/stock/sucursal/2
     @GetMapping("/sucursal/{sucursalId}")
     public ResponseEntity<List<StockResponseDTO>> obtenerPorSucursal(@PathVariable Long sucursalId) {
         return ResponseEntity.ok(stockService.obtenerPorSucursal(sucursalId));
