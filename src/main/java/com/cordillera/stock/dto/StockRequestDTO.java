@@ -17,8 +17,6 @@ public class StockRequestDTO {
     @Min(value = 0, message = "La cantidad disponible no puede ser negativa")
     private Integer cantidadDisponible;
 
-    // La cantidad reservada suele ser opcional al crear,
-    // pero si la envían, no puede ser menor a 0.
     @Min(value = 0, message = "La cantidad reservada no puede ser negativa")
     private Integer cantidadReservada = 0;
 }

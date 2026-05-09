@@ -29,17 +29,14 @@ public class StockService {
         Stock stockGuardar;
 
         if (stockExistente.isPresent()) {
-            // REGLA DE NEGOCIO: Si existe, SUMAMOS la nueva cantidad a la que ya había
             stockGuardar = stockExistente.get();
             int nuevaCantidad = stockGuardar.getCantidadDisponible() + request.getCantidadDisponible();
             stockGuardar.setCantidadDisponible(nuevaCantidad);
 
-            // Opcional: sumar también reservas si las envían
             if (request.getCantidadReservada() != null) {
                 stockGuardar.setCantidadReservada(stockGuardar.getCantidadReservada() + request.getCantidadReservada());
             }
         } else {
-            // REGLA DE NEGOCIO: Si no existe, creamos un registro nuevo desde cero
             stockGuardar = new Stock();
             stockGuardar.setProductoId(request.getProductoId());
             stockGuardar.setSucursalId(request.getSucursalId());
@@ -51,20 +48,18 @@ public class StockService {
         return mapToResponseDTO(guardado);
     }
 
-    // 2. Reducir o Consumir Stock (Ej: cuando se concreta una venta)
+    // 2. Reducir o Consumir Stock
     @Transactional
     public StockResponseDTO consumirStock(Long productoId, Long sucursalId, Integer cantidadAconsumir) {
 
         Stock stock = stockRepository.findByProductoIdAndSucursalId(productoId, sucursalId)
                 .orElseThrow(() -> new RuntimeException("No hay registro de stock para este producto en esta sucursal"));
 
-        // REGLA DE NEGOCIO: Validar que haya suficiente stock antes de restar
         if (stock.getCantidadDisponible() < cantidadAconsumir) {
             throw new RuntimeException("Stock insuficiente. Disponible: " + stock.getCantidadDisponible() +
                     ", Solicitado: " + cantidadAconsumir);
         }
 
-        // Restamos la cantidad
         stock.setCantidadDisponible(stock.getCantidadDisponible() - cantidadAconsumir);
 
         Stock guardado = stockRepository.save(stock);
@@ -87,7 +82,6 @@ public class StockService {
                 .collect(Collectors.toList());
     }
 
-    // Método privado para mapear Entidad a DTO
     private StockResponseDTO mapToResponseDTO(Stock stock) {
         return StockResponseDTO.builder()
                 .id(stock.getId())
