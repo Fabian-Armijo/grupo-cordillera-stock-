@@ -14,5 +14,5 @@ VALUES (3, 11, 1, 5, 1, CURRENT_TIMESTAMP) ON CONFLICT (id) DO NOTHING;
 INSERT INTO inventario (id, producto_id, sucursal_id, cantidad_disponible, cantidad_reservada, ultima_actualizacion)
 VALUES (4, 12, 2, 100, 5, CURRENT_TIMESTAMP) ON CONFLICT (id) DO NOTHING;
 
--- Sincronizamos la secuencia de IDs de la tabla inventario
+-- Sincronizamos la secuencia de IDs de la tabla inventario asdads
 SELECT setval('inventario_id_seq', (SELECT MAX(id) FROM inventario));
