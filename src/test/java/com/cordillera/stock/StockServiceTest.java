@@ -35,7 +35,7 @@ class StockServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Preparar DTO de entradaaaaa
+        // Preparar DTO de entradaaaaaa
         requestDTO = new StockRequestDTO();
         requestDTO.setProductoId(1L);
         requestDTO.setSucursalId(10L);
